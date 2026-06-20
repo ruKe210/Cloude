@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79b871308742aa045b937c83201d8c6b, type: 3}
+  m_Name: OfficeBattleArtSet
+  m_EditorClassIdentifier: 
+  background: {fileID: 21300000, guid: 0da7e2b8eeda79a4abf923b505e3fd3a, type: 3}
+  playerPortrait: {fileID: 21300000, guid: b5c48baf0f690c147829ae5f9119a24d, type: 3}
+  enemyPortrait: {fileID: 21300000, guid: 6d99c350627359849b7698cf9a208d77, type: 3}
+  playerIdleFrames:
+  - {fileID: -6265879739492478808, guid: db15de98a40eeec4f850e9f90d4533b7, type: 3}
+  - {fileID: 7098043266778092814, guid: db15de98a40eeec4f850e9f90d4533b7, type: 3}
+  - {fileID: 534204471400326712, guid: db15de98a40eeec4f850e9f90d4533b7, type: 3}
+  playerAttackFrame: {fileID: 21300000, guid: 29ddb21b34aba9c4db4d3133fe33d702, type: 3}
+  enemyIdleFrames:
+  - {fileID: 21300000, guid: 5792216e7e9413d4b9f84c73b2ac303e, type: 3}
+  - {fileID: 21300000, guid: ffc74db92ebe68b44a9862f482adfaac, type: 3}
+  enemyAttackFrame: {fileID: 21300000, guid: f1c99317075a5a5458e14356575b7dd5, type: 3}
+  playerAnimator: {fileID: 9100000, guid: d667ba730ab6f714ba33408dccc8b7f0, type: 2}
+  enemyAnimator: {fileID: 9100000, guid: 4a0cf3ce7b2740947b1d0bc9de2ac1d0, type: 2}
