@@ -5,6 +5,9 @@ using STS.Powers;
 
 namespace STS.Entities
 {
+    /// <summary>
+    /// 战斗实体基类：HP、格挡、Buff 列表及受伤/加盾逻辑。Player / Enemy 继承此类。
+    /// </summary>
     public abstract class CombatEntity : IBattleEntity
     {
         private readonly List<PowerInstance> _powers = new List<PowerInstance>();

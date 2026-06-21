@@ -4,6 +4,10 @@ using UnityEngine;
 
 namespace STS.Meta.IO
 {
+    /// <summary>
+    /// 从 Resources/MetaScripts/{scriptId}.json 加载剧本。
+    /// 加载后会运行校验器，错误仅打 Log 不阻断（便于策划迭代 JSON）。
+    /// </summary>
     public static class NarrativeScriptLoader
     {
         private const string ResourceFolder = "MetaScripts";
@@ -18,6 +22,7 @@ namespace STS.Meta.IO
                 return null;
             }
 
+            // JsonUtility 不支持 Dictionary，节点以数组形式存储，加载后 BuildNodeMap 建索引
             var script = JsonUtility.FromJson<NarrativeScriptDefinition>(asset.text);
             if (script == null)
             {

@@ -7,6 +7,9 @@ using UnityEngine.UI;
 
 namespace STS.Presentation
 {
+    /// <summary>
+    /// 战斗场景入口：创建 BattleContext / Manager / ActionManager，绑定 UI 并每帧驱动 ProcessTick。
+    /// </summary>
     public class BattleSceneController : MonoBehaviour
     {
         [Header("Optional References")]

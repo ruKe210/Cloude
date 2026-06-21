@@ -2,6 +2,10 @@ using System;
 
 namespace STS.Meta.Data
 {
+    /// <summary>
+    /// 单个剧本节点 DTO。type 决定 Engine 分发逻辑：line / choice / set / if。
+    /// battleReturn 仅 line 节点在 next 为 battle: 时有效，指定战后回归节点。
+    /// </summary>
     [Serializable]
     public class NarrativeNodeEntry
     {

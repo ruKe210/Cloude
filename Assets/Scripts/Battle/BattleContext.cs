@@ -3,6 +3,10 @@ using STS.Entities;
 
 namespace STS.Battle
 {
+    /// <summary>
+    /// 单场战斗的运行时上下文，类似 Meta 层的 NarrativeContext。
+    /// 持有双方实体、回合数、阶段与 RNG，不含 UI 或 Action 队列逻辑。
+    /// </summary>
     public class BattleContext
     {
         public PlayerEntity Player { get; }

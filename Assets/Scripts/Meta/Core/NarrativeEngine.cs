@@ -4,10 +4,15 @@ using STS.Meta.Data;
 
 namespace STS.Meta.Core
 {
+    /// <summary>
+    /// 剧本运行时核心：解析 JSON 节点、维护状态机、处理跳转与 Flag。
+    /// 纯 C# 类，不依赖 MonoBehaviour；UI 通过 StateChanged 事件订阅。
+    /// </summary>
     public class NarrativeEngine
     {
         private readonly Dictionary<string, NarrativeNodeEntry> _nodes;
         private readonly Dictionary<string, string> _anchors;
+        /// <summary>当前 choice 节点经过条件过滤后，真正展示给玩家的选项。</summary>
         private readonly List<NarrativeOptionEntry> _visibleOptions = new List<NarrativeOptionEntry>();
 
         public NarrativeContext Context { get; private set; }
@@ -22,16 +27,19 @@ namespace STS.Meta.Core
             Context = new NarrativeContext(script);
         }
 
+        /// <summary>从 startNodeId 开始播放剧本。</summary>
         public void Start()
         {
             EnterNode(Context.Script.startNodeId);
         }
 
+        /// <summary>从指定节点恢复（战斗返回 Meta 时使用）。</summary>
         public void ResumeFromNode(string nodeId)
         {
             EnterNode(nodeId);
         }
 
+        /// <summary>左键跳过打字机：PlayingLine → WaitingLineAdvance。</summary>
         public void SkipTyping()
         {
             if (State != NarrativeState.PlayingLine)
@@ -43,6 +51,7 @@ namespace STS.Meta.Core
             NotifyState();
         }
 
+        /// <summary>全文显示后左键确认，沿当前 line 节点的 next 跳转。</summary>
         public void Advance()
         {
             if (State != NarrativeState.WaitingLineAdvance || Context.CurrentNode == null)
@@ -53,6 +62,7 @@ namespace STS.Meta.Core
             FollowJump(Context.CurrentNode.next);
         }
 
+        /// <summary>玩家点选选项：写入 Flag 并跳转。</summary>
         public void SelectOption(int index)
         {
             if (State != NarrativeState.WaitingChoice || index < 0 || index >= _visibleOptions.Count)
@@ -65,6 +75,10 @@ namespace STS.Meta.Core
             FollowJump(option.next);
         }
 
+        /// <summary>
+        /// 进入节点并根据 type 分发。
+        /// set / if 节点会立即自动跳转，不等待玩家输入。
+        /// </summary>
         private void EnterNode(string nodeId)
         {
             if (string.IsNullOrEmpty(nodeId))
@@ -117,6 +131,7 @@ namespace STS.Meta.Core
             });
         }
 
+        /// <summary>按 requireFlags / requireFlagsNone 过滤不可见选项。</summary>
         private void ShowChoice(NarrativeNodeEntry node)
         {
             _visibleOptions.Clear();
@@ -168,6 +183,7 @@ namespace STS.Meta.Core
             Context.Flags.RemoveRange(node.clearFlags);
         }
 
+        /// <summary>按 conditions 顺序匹配，首个满足的 next 生效；否则走 fallback。</summary>
         private string ResolveIf(NarrativeNodeEntry node)
         {
             if (node.conditions != null)
@@ -189,6 +205,9 @@ namespace STS.Meta.Core
             return node.fallback;
         }
 
+        /// <summary>
+        /// 统一跳转入口。anchor 用于多分支汇合；battle 暂停剧本并通知 Presentation 切场景。
+        /// </summary>
         private void FollowJump(string rawTarget)
         {
             var target = NarrativeJumpTarget.Parse(rawTarget);
@@ -223,6 +242,7 @@ namespace STS.Meta.Core
                         Battle = new NarrativeBattlePayload
                         {
                             SceneName = target.Value,
+                            // battleReturn 写在触发战斗的 line 节点上，战后从此节点继续
                             ReturnNodeId = string.IsNullOrEmpty(Context.CurrentNode?.battleReturn)
                                 ? null
                                 : Context.CurrentNode.battleReturn
@@ -245,6 +265,7 @@ namespace STS.Meta.Core
             });
         }
 
+        /// <summary>打字机自然播完时由 Presentation 调用。</summary>
         public void MarkWaitingAdvance()
         {
             if (State != NarrativeState.PlayingLine)

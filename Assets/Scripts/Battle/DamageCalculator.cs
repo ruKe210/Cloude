@@ -4,6 +4,9 @@ using STS.Entities;
 
 namespace STS.Battle
 {
+    /// <summary>
+    /// 伤害结算：力量加成、虚弱减伤、易伤增伤。Preview 与 Resolve 目前逻辑一致，供 UI 预览用。
+    /// </summary>
     public static class DamageCalculator
     {
         public static int PreviewDamage(int baseDamage, CombatEntity attacker, CombatEntity target, DamageType type = DamageType.Normal)

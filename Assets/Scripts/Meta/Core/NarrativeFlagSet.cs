@@ -2,6 +2,9 @@ using System.Collections.Generic;
 
 namespace STS.Meta.Core
 {
+    /// <summary>
+    /// 剧本分支标记集合。用于记录玩家选择，并驱动条件分支与选项可见性。
+    /// </summary>
     public class NarrativeFlagSet
     {
         private readonly HashSet<string> _flags = new HashSet<string>();
@@ -11,6 +14,7 @@ namespace STS.Meta.Core
             return !string.IsNullOrEmpty(flag) && _flags.Contains(flag);
         }
 
+        /// <summary>requireFlags 为空视为无条件满足。</summary>
         public bool HasAll(string[] requiredFlags)
         {
             if (requiredFlags == null || requiredFlags.Length == 0)
@@ -29,6 +33,7 @@ namespace STS.Meta.Core
             return true;
         }
 
+        /// <summary>requireFlagsNone 为空视为无禁止项。</summary>
         public bool HasNone(string[] forbiddenFlags)
         {
             if (forbiddenFlags == null || forbiddenFlags.Length == 0)
@@ -79,6 +84,7 @@ namespace STS.Meta.Core
             }
         }
 
+        /// <summary>战斗返回 Meta 时恢复 Flag 状态。</summary>
         public void CopyFrom(NarrativeFlagSet other)
         {
             _flags.Clear();

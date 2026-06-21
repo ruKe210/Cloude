@@ -10,6 +10,10 @@ using UnityEngine.UI;
 
 namespace STS.Meta.Presentation
 {
+    /// <summary>
+    /// Meta 剧本场景入口：运行时构建 UI，订阅 NarrativeEngine 状态，处理打字机与选项。
+    /// 战斗分支时写入 MetaGameSession 并 LoadScene；返回时 RestoreAfterBattle 恢复节点。
+    /// </summary>
     public class NarrativeSceneController : MonoBehaviour
     {
         [SerializeField] private string scriptId = "prologue";
@@ -25,6 +29,7 @@ namespace STS.Meta.Presentation
         private string _fullBodyText = string.Empty;
         private bool _typingComplete;
 
+        /// <summary>加载 JSON、订阅 Engine；若从战斗返回则走 RestoreAfterBattle。</summary>
         private void Start()
         {
             SetupCamera();
@@ -62,6 +67,7 @@ namespace STS.Meta.Presentation
             }
         }
 
+        /// <summary>左键：跳过打字机或确认进入下一句。</summary>
         private void Update()
         {
             if (_engine == null || !Input.GetMouseButtonDown(0))
@@ -80,6 +86,7 @@ namespace STS.Meta.Presentation
             }
         }
 
+        /// <summary>战斗结束回到 MetaStory 时，恢复 Flag 并从 ReturnNodeId 继续剧本。</summary>
         private void RestoreAfterBattle()
         {
             var returnNode = MetaGameSession.ReturnNodeId;
@@ -99,6 +106,7 @@ namespace STS.Meta.Presentation
             }
         }
 
+        /// <summary>Engine 状态机 → UI 更新的唯一入口。</summary>
         private void OnEngineStateChanged(NarrativeStateChangedEventArgs args)
         {
             switch (args.State)
@@ -290,6 +298,7 @@ namespace STS.Meta.Presentation
             ShowHint(string.Empty);
         }
 
+        /// <summary>保存会话并异步加载战斗场景。</summary>
         private void HandleBattle(NarrativeBattlePayload battle)
         {
             if (battle == null)

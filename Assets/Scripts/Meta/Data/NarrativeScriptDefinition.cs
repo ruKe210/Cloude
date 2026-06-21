@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace STS.Meta.Data
 {
+    /// <summary>
+    /// 剧本 JSON 根对象，对应 Resources/MetaScripts/*.json。
+    /// JsonUtility 要求 nodes/anchors 为数组，运行时通过 BuildNodeMap 建索引。
+    /// </summary>
     [Serializable]
     public class NarrativeScriptDefinition
     {

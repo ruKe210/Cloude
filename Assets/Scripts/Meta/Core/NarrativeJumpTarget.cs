@@ -1,5 +1,8 @@
 namespace STS.Meta.Core
 {
+    /// <summary>
+    /// 剧本跳转目标的解析结果。JSON 中 next 字段的统一语法见 Parse 方法。
+    /// </summary>
     public readonly struct NarrativeJumpTarget
     {
         public JumpKind Kind { get; }
@@ -11,6 +14,13 @@ namespace STS.Meta.Core
             Value = value;
         }
 
+        /// <summary>
+        /// 解析跳转字符串：
+        /// "n001" → 普通节点；
+        /// "anchor:xxx" → 铆点；
+        /// "battle:Demo0" → 战斗场景；
+        /// "end" → 剧本结束。
+        /// </summary>
         public static NarrativeJumpTarget Parse(string raw)
         {
             if (string.IsNullOrEmpty(raw))

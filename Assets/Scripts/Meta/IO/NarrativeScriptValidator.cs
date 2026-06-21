@@ -4,6 +4,10 @@ using STS.Meta.Data;
 
 namespace STS.Meta.IO
 {
+    /// <summary>
+    /// 剧本静态校验：检查 startNode、锚点、所有 next 引用是否可达。
+    /// 在 Editor 与运行时加载时均可调用，避免 JSON 拼写错误导致运行时崩溃。
+    /// </summary>
     public static class NarrativeScriptValidator
     {
         public static List<string> Validate(NarrativeScriptDefinition script)
