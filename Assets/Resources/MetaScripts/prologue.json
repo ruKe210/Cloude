@@ -1,0 +1,170 @@
+{
+  "scriptId": "prologue",
+  "version": 1,
+  "title": "Meta 演示：周一早晨",
+  "startNodeId": "n001",
+  "anchors": [
+    { "id": "meet_deadline", "nodeId": "n050" },
+    { "id": "after_choice_path", "nodeId": "n060" }
+  ],
+  "nodes": [
+    {
+      "id": "n001",
+      "type": "line",
+      "speaker": "旁白",
+      "text": "周一早上，开放式办公室里咖啡机嗡嗡作响。\n你作为后端开发，正准备把最后一杯美式带回工位。",
+      "next": "n002",
+      "charsPerSecond": 28
+    },
+    {
+      "id": "n002",
+      "type": "line",
+      "speaker": "旁白",
+      "text": "这时，产品经理带着一叠需求文档走了过来，笑容里藏着某种危险。",
+      "next": "n003",
+      "charsPerSecond": 30
+    },
+    {
+      "id": "n003",
+      "type": "choice",
+      "prompt": "你要怎么回应？",
+      "options": [
+        {
+          "text": "「今天下班前一定交付。」",
+          "next": "n011",
+          "setFlags": ["agree_overtime"]
+        },
+        {
+          "text": "「需求还没评审，今天交付不现实。」",
+          "next": "n012",
+          "setFlags": ["refuse_polite"]
+        },
+        {
+          "text": "（低头假装在查线上告警）",
+          "next": "n013",
+          "setFlags": ["ignore_pm"]
+        }
+      ]
+    },
+    {
+      "id": "n011",
+      "type": "line",
+      "speaker": "你",
+      "text": "你拍胸脯保证今天上线。产品经理满意地离开了，\n而你已经在心里把周末献给了 Bug 修复。",
+      "next": "anchor:meet_deadline",
+      "charsPerSecond": 32
+    },
+    {
+      "id": "n012",
+      "type": "line",
+      "speaker": "你",
+      "text": "你礼貌地据理力争。产品经理愣了一下，\n说「那至少先把接口文档今晚发我」。",
+      "next": "n014",
+      "charsPerSecond": 32
+    },
+    {
+      "id": "n014",
+      "type": "set",
+      "setFlags": ["negotiated"],
+      "next": "anchor:meet_deadline"
+    },
+    {
+      "id": "n013",
+      "type": "line",
+      "speaker": "旁白",
+      "text": "你成功回避了对视。五分钟后，你在群里被 @ 了三次。",
+      "next": "anchor:meet_deadline",
+      "charsPerSecond": 30
+    },
+    {
+      "id": "n050",
+      "type": "line",
+      "speaker": "死线",
+      "text": "不管刚才你怎么选，老板「死线」都准时出现在你的工位旁。\n胸口印着两个大字，像倒计时一样闪烁。",
+      "next": "n051",
+      "charsPerSecond": 28
+    },
+    {
+      "id": "n051",
+      "type": "if",
+      "conditions": [
+        { "requireFlags": ["agree_overtime"], "next": "n052" },
+        { "requireFlags": ["refuse_polite"], "next": "n053" },
+        { "requireFlags": ["ignore_pm"], "next": "n054" }
+      ],
+      "fallback": "n055"
+    },
+    {
+      "id": "n052",
+      "type": "line",
+      "speaker": "死线",
+      "text": "「很好，很有精神。那就用代码证明你的承诺吧。」",
+      "next": "anchor:after_choice_path",
+      "charsPerSecond": 30
+    },
+    {
+      "id": "n053",
+      "type": "line",
+      "speaker": "死线",
+      "text": "「会谈判的开发不多见。但死线不会谈判。」",
+      "next": "anchor:after_choice_path",
+      "charsPerSecond": 30
+    },
+    {
+      "id": "n054",
+      "type": "line",
+      "speaker": "死线",
+      "text": "「装死对 KPI 没有帮助。起来，面对需求。」",
+      "next": "anchor:after_choice_path",
+      "charsPerSecond": 30
+    },
+    {
+      "id": "n055",
+      "type": "line",
+      "speaker": "死线",
+      "text": "「今天的你，也在我的考核范围内。」",
+      "next": "anchor:after_choice_path",
+      "charsPerSecond": 30
+    },
+    {
+      "id": "n060",
+      "type": "choice",
+      "prompt": "最终抉择：",
+      "options": [
+        {
+          "text": "正面迎战（进入 Demo0 战斗演示）",
+          "next": "n070"
+        },
+        {
+          "text": "申请再开一次评审会（和平结局）",
+          "next": "n080"
+        }
+      ]
+    },
+    {
+      "id": "n070",
+      "type": "line",
+      "speaker": "旁白",
+      "text": "你深吸一口气，打开 IDE。\n键盘声响起——战斗开始了。",
+      "next": "battle:Demo0",
+      "battleReturn": "n071",
+      "charsPerSecond": 28
+    },
+    {
+      "id": "n071",
+      "type": "line",
+      "speaker": "旁白",
+      "text": "（若已从战斗返回）你带着胜利/失败的余韵回到工位。\n死线暂时退回了需求池。",
+      "next": "n080",
+      "charsPerSecond": 28
+    },
+    {
+      "id": "n080",
+      "type": "line",
+      "speaker": "旁白",
+      "text": "Meta 剧本演示结束。\n你刚刚体验了：打字机、左键跳过、分支选择、铆点汇合与条件对话。",
+      "next": "end",
+      "charsPerSecond": 30
+    }
+  ]
+}
